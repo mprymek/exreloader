@@ -14,7 +14,7 @@ defmodule ExReloader do
   end
 
   defp sup_tree do
-    interval = Application.environment(:exreloader)[:interval] || 1000
+    interval = Application.get_all_env(:exreloader)[:interval] || 1000
     Sup.OneForOne.new(id: ExReloader.Server.Sup,
                       children: [Sup.Worker.new(id: ExReloader.Server, 
                                                 start_func: {ExReloader.Server, :start_link, [interval]})])
