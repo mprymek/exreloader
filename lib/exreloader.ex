@@ -60,7 +60,7 @@ defmodule ExReloader.Server do
   import GenX.GenServer
   alias :gen_server, as: GenServer
 
-  def start_link(interval // 1000) do
+  def start_link(interval \\ 1000) do
     GenServer.start {:local, __MODULE__}, __MODULE__, interval, []
   end
 
