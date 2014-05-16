@@ -83,7 +83,7 @@ defmodule ExReloader.Server do
   defp run(from, to) do
     lc {module, filename} inlist :code.all_loaded, is_list(filename) do
       case File.stat(filename) do
-        {:ok, File.Stat[mtime: mtime]} when mtime >= from and mtime < to ->
+        {:ok, %File.Stat{mtime: mtime}} when mtime >= from and mtime < to ->
            ExReloader.reload(module)
         {:ok, _} -> :unmodified
         {:error, :enoent} -> :gone
