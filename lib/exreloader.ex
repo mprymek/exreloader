@@ -23,7 +23,7 @@ defmodule ExReloader do
   ##
 
   def reload_modules(modules) do
-    lc module inlist modules, do: reload(module)
+    for module <- modules, do: reload(module)
   end
 
   def reload(module) do
@@ -32,7 +32,7 @@ defmodule ExReloader do
   end
 
   def all_changed() do
-    lc {m, f} inlist :code.all_loaded, is_list(f), changed?(m), do: m
+    for {m, f} <- :code.all_loaded, is_list(f), changed?(m), do: m
   end
 
   def changed?(module) do
@@ -81,7 +81,7 @@ defmodule ExReloader.Server do
   defp timestamp, do: :erlang.localtime
 
   defp run(from, to) do
-    lc {module, filename} inlist :code.all_loaded, is_list(filename) do
+    for {module, filename} <- :code.all_loaded, is_list(filename) do
       case File.stat(filename) do
         {:ok, %File.Stat{mtime: mtime}} when mtime >= from and mtime < to ->
            ExReloader.reload(module)
